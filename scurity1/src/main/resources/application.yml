@@ -38,3 +38,42 @@ spring:
             scope:
             - email
             - profile
+            
+          facebook:
+            client-id: 255788093377176
+            client-secret: af2384e421ceaf74f904855c9668e669
+            scope:
+            - email
+            - public_profile
+            
+          naver:
+            client-id: Fhr7XUofmA9YZWdjYDbE
+            client-secret: DU_ev3qLPx
+            scope:
+            - name
+            - email
+            client-name: naver
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+          
+          kakao:
+            client-id: b5c4dbfa026394302ec34c186babab8d
+            scope:
+            - profile_nickname
+            - account_email
+            client-name: kakao
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            
+        provider: # provider는 naver와 같은 나라의 포털사이트는 등록이 되어있지않기에 따로 등록해준다.
+          naver: 
+            authorization-uri: https://nid.naver.com/oauth2.0/authorize
+            token-uri: https://nid.naver.com/oauth2.0/token
+            user-info-uri: https://openapi.naver.com/v1/nid/me
+            user-name-attribute: response # 회원정보를 json으로 받는데 response라는 키값으로 리턴해준다.
+            
+          kakao: 
+            authorization-uri: https://kauth.kakao.com/oauth/authorize # 응답
+            token-uri: https://kauth.kakao.com/oauth/token # 요청
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: properties # 회원정보를 json으로 받는데 properties라는 키값으로 리턴해준다.
