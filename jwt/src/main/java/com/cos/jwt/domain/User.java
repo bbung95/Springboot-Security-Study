@@ -1,5 +1,7 @@
 package com.cos.jwt.domain;
 
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@ToString
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +28,5 @@ public class User {
         }
         return new ArrayList<>();
     }
+
 }
