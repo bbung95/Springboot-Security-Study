@@ -29,7 +29,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         this.userRepository = userRepository;
     }
 
-    // 인증이나 권한이 필요한 주소요청이 있을 때 해당 핋터를 타게 됨.
+    // 인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 됨.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         super.doFilterInternal(request, response, chain);
@@ -39,30 +39,31 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         System.out.println("jwtHeader = " + jwtHeader);
 
         // header가 있는지 확인
-        if (jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
-            chain.doFilter(request, response);
-            return;
-        }
+//        if (jwtHeader != null || jwtHeader.startsWith("Bearer ")) {
+//
+//            // JWT 토큰을 검증을 해서 정상적인 사용자인지 확인
+//            String token = jwtHeader.replace("Bearer ", "").trim();
+//
+//            String username = JWT.require(Algorithm.HMAC512("cos")).build().verify(token).getClaim("username").asString();
+//
+//            // 서명이 정상적으로 됨
+//            if(username != null && username.equals("")){
+//
+//                System.out.println("username 정상");
+//                User findUser = userRepository.findByUsername(username);
+//
+//                System.out.println("findUser = " + findUser.getUsername());
+//                PrincipalDetails principalDetails = new PrincipalDetails(findUser);
+//
+//                // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
+//                Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+//
+//                // 강제로 시큐리티의 세션에 접근하여 Authentication 객체를 저장.
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//            }
+//        }
 
-        // JWT 토큰을 검증을 해서 정상적인 사용자인지 확인
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-
-        String username = JWT.require(Algorithm.HMAC512("cos")).build().verify(token).getClaim("username").asString();
-
-        // 서명이 정상적으로 됨
-        if(username != null){
-
-            User findUser = userRepository.findByUsername(username);
-
-            PrincipalDetails principalDetails = new PrincipalDetails(findUser);
-
-            // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
-
-            // 강제로 시큐리티의 세션에 접근하여 Authentication 객체를 저장.
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        }
         chain.doFilter(request, response);
     }
 

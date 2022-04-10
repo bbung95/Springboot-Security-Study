@@ -4,13 +4,11 @@ import com.cos.jwt.domain.User;
 import com.cos.jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("api/v1")
 public class RestApiController {
 
     private final PasswordEncoder passwordEncoder;
@@ -27,7 +25,7 @@ public class RestApiController {
         return "<h1>token</h1>";
     }
 
-    @PostMapping("/join")
+    @PostMapping("join")
     public String join(@RequestBody User user){
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -38,19 +36,19 @@ public class RestApiController {
     }
 
     // user, manager, admin 권한만 접근 가능
-    @GetMapping("api/v1/user")
+    @GetMapping("user")
     public String user(){
         return "user";
     }
 
     // manager, admin 권한만 접근 가능
-    @GetMapping("api/v1/manager")
+    @GetMapping("manager")
     public String manager(){
         return "manager";
     }
 
     // admin 권한만 접근 가능
-    @GetMapping("api/v1/admin")
+    @GetMapping("admin")
     public String admin(){
         return "admin";
     }
